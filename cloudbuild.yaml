@@ -1,0 +1,17 @@
+steps:
+  - name: 'maven:3.9-eclipse-temurin-17'
+    entrypoint: 'mvn'
+    args:
+      - '-PMySQL'
+      - 'clean'
+      - 'package'
+      - '-DskipTests'
+
+artifacts:
+  objects:
+    location: 'gs://npc-bucket-nova/releases/'
+    paths:
+      - 'target/*.war'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
