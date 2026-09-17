@@ -15,8 +15,14 @@
  */
 package org.springframework.samples.petclinic.model;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 
 /**
@@ -31,7 +37,8 @@ public class Visit extends BaseEntity {
     /**
      * Holds value of property date.
      */
-    @Column(name = "visit_date", columnDefinition = "DATE")
+    @Column(name = "visit_date")
+    @DateTimeFormat(pattern = "yyyy/MM/dd")
     private LocalDate date;
 
     /**

@@ -15,14 +15,23 @@
  */
 package org.springframework.samples.petclinic.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotEmpty;
+
+import org.springframework.beans.support.MutableSortDefinition;
+import org.springframework.beans.support.PropertyComparator;
 import org.springframework.core.style.ToStringCreator;
-
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
-
-import java.util.*;
 
 /**
  * Simple JavaBean domain object representing an owner.
@@ -46,11 +55,11 @@ public class Owner extends Person {
     @Column(name = "telephone")
     @NotEmpty
     @Digits(fraction = 0, integer = 10)
-    @Pattern(regexp = "^[0-9]{10}$", message = "Phone number must be exactly 10 digits")
     private String telephone;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private Set<Pet> pets;
+
 
     public String getAddress() {
         return this.address;
@@ -89,12 +98,8 @@ public class Owner extends Person {
 
     public List<Pet> getPets() {
         List<Pet> sortedPets = new ArrayList<>(getPetsInternal());
-        sortedPets.sort(Comparator.comparing(Pet::getName, String.CASE_INSENSITIVE_ORDER));
+        PropertyComparator.sort(sortedPets, new MutableSortDefinition("name", true, true));
         return Collections.unmodifiableList(sortedPets);
-    }
-
-    public void setPets(List<Pet> pets) {
-        this.pets = new HashSet<>(pets);
     }
 
     public void addPet(Pet pet) {
@@ -130,10 +135,6 @@ public class Owner extends Person {
             }
         }
         return null;
-    }
-
-    public Pet getPet(Integer petId) {
-        return getPetsInternal().stream().filter(p -> p.getId().equals(petId)).findFirst().orElse(null);
     }
 
     @Override

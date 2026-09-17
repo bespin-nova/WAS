@@ -23,7 +23,7 @@ import org.springframework.samples.petclinic.model.Pet;
  *
  * @author Juergen Hoeller
  */
-public class JdbcPet extends Pet {
+class JdbcPet extends Pet {
 
     private int typeId;
 

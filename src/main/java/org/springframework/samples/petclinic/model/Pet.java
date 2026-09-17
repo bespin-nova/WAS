@@ -15,10 +15,25 @@
  */
 package org.springframework.samples.petclinic.model;
 
-import jakarta.persistence.*;
-import java.time.LocalDate;
-import java.util.*;
+import org.springframework.beans.support.MutableSortDefinition;
+import org.springframework.beans.support.PropertyComparator;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Simple business object representing a pet.
@@ -31,10 +46,11 @@ import java.util.*;
 @Table(name = "pets")
 public class Pet extends NamedEntity {
 
-    @Column(name = "birth_date", columnDefinition = "DATE")
+    @Column(name = "birth_date")
+    @DateTimeFormat(pattern = "yyyy/MM/dd")
     private LocalDate birthDate;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "type_id")
     private PetType type;
 
@@ -45,12 +61,13 @@ public class Pet extends NamedEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
     private Set<Visit> visits;
 
-    public LocalDate getBirthDate() {
-        return this.birthDate;
-    }
 
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public LocalDate getBirthDate() {
+        return this.birthDate;
     }
 
     public PetType getType() {
@@ -65,7 +82,7 @@ public class Pet extends NamedEntity {
         return this.owner;
     }
 
-    public void setOwner(Owner owner) {
+    protected void setOwner(Owner owner) {
         this.owner = owner;
     }
 
@@ -82,12 +99,8 @@ public class Pet extends NamedEntity {
 
     public List<Visit> getVisits() {
         List<Visit> sortedVisits = new ArrayList<>(getVisitsInternal());
-        sortedVisits.sort(Comparator.comparing(Visit::getDate).reversed());
+        PropertyComparator.sort(sortedVisits, new MutableSortDefinition("date", false, false));
         return Collections.unmodifiableList(sortedVisits);
-    }
-
-    public void setVisits(List<Visit> visits) {
-        this.visits = new HashSet<>(visits);
     }
 
     public void addVisit(Visit visit) {

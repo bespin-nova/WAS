@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2017 the original author or authors.
+ * Copyright 2002-2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +15,8 @@
  */
 package org.springframework.samples.petclinic.repository;
 
-import java.util.Collection;
 import java.util.List;
 
-import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.model.Visit;
 
@@ -30,7 +28,6 @@ import org.springframework.samples.petclinic.model.Visit;
  * @author Juergen Hoeller
  * @author Sam Brannen
  * @author Michael Isvy
- * @author Vitaliy Fedoriv
  */
 public interface VisitRepository {
 
@@ -40,14 +37,8 @@ public interface VisitRepository {
      * @param visit the <code>Visit</code> to save
      * @see BaseEntity#isNew
      */
-    void save(Visit visit) throws DataAccessException;
+    void save(Visit visit);
 
     List<Visit> findByPetId(Integer petId);
-    
-	Visit findById(int id) throws DataAccessException;
-	
-	Collection<Visit> findAll() throws DataAccessException;
-
-	void delete(Visit visit) throws DataAccessException;
 
 }

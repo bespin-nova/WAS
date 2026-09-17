@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2017 the original author or authors.
+ * Copyright 2002-2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,15 +15,12 @@
  */
 package org.springframework.samples.petclinic.repository.jpa;
 
-import java.util.Collection;
 import java.util.List;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
-import org.springframework.context.annotation.Profile;
-import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.repository.VisitRepository;
 import org.springframework.stereotype.Repository;
@@ -37,10 +34,9 @@ import org.springframework.stereotype.Repository;
  * @author Rod Johnson
  * @author Sam Brannen
  * @author Michael Isvy
- * @author Vitaliy Fedoriv
+ * @since 22.4.2006
  */
 @Repository
-@Profile("jpa")
 public class JpaVisitRepositoryImpl implements VisitRepository {
 
     @PersistenceContext
@@ -64,21 +60,5 @@ public class JpaVisitRepositoryImpl implements VisitRepository {
         query.setParameter("id", petId);
         return query.getResultList();
     }
-
-	@Override
-	public Visit findById(int id) throws DataAccessException {
-		return this.em.find(Visit.class, id);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public Collection<Visit> findAll() throws DataAccessException {
-        return this.em.createQuery("SELECT v FROM Visit v").getResultList();
-	}
-
-	@Override
-	public void delete(Visit visit) throws DataAccessException {
-        this.em.remove(this.em.contains(visit) ? visit : this.em.merge(visit));
-	}
 
 }

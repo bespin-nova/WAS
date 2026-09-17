@@ -15,10 +15,8 @@
  */
 package org.springframework.samples.petclinic.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.MappedSuperclass;
-
-import jakarta.validation.constraints.NotEmpty;
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
 
 
 /**
@@ -32,7 +30,6 @@ import jakarta.validation.constraints.NotEmpty;
 public class NamedEntity extends BaseEntity {
 
     @Column(name = "name")
-    @NotEmpty
     private String name;
 
     public String getName() {

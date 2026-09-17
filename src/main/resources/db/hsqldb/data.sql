@@ -51,10 +51,3 @@ INSERT INTO visits VALUES (1, 7, '2013-01-01', 'rabies shot');
 INSERT INTO visits VALUES (2, 8, '2013-01-02', 'rabies shot');
 INSERT INTO visits VALUES (3, 8, '2013-01-03', 'neutered');
 INSERT INTO visits VALUES (4, 7, '2013-01-04', 'spayed');
-
-INSERT INTO users(username, password, enabled) VALUES
-('admin', '$2a$10$ymaklWBnpBKlgdMgkjWVF.GMGyvH8aDuTK.glFOaKw712LHtRRymS', TRUE);
-
-INSERT INTO roles (username, role) VALUES ('admin', 'ROLE_OWNER_ADMIN');
-INSERT INTO roles (username, role) VALUES ('admin', 'ROLE_VET_ADMIN');
-INSERT INTO roles (username, role) VALUES ('admin', 'ROLE_ADMIN');

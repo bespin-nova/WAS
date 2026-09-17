@@ -1,26 +1,12 @@
-target/*
-.settings/*
+# Eclipse
+.settings/
 .classpath
 .project
+bin/
+
+# IntelliJ IDEA
 .idea
 *.iml
-/target
 
-generated/
-
-# Easier branch switching
-springboot-petclinic-client/
-springboot-petclinic-server/
-
-# jenv local settings
-.java-version
-
-# Mac OS X indexing
-.DS_Store
-
-# asdf generated files
-.tool-versions
-.factorypath
-
-# newman reports
-./src/test/postman/reports/
+# Maven
+target/

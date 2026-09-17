@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2017 the original author or authors.
+ * Copyright 2002-2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,10 +17,6 @@ package org.springframework.samples.petclinic.repository.springdatajpa;
 
 import java.util.List;
 
-import org.springframework.context.annotation.Profile;
-import org.springframework.dao.DataAccessException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.samples.petclinic.model.Pet;
@@ -31,19 +27,11 @@ import org.springframework.samples.petclinic.repository.PetRepository;
  * Spring Data JPA specialization of the {@link PetRepository} interface
  *
  * @author Michael Isvy
- * @author Vitaliy Fedoriv
+ * @since 15.1.2013
  */
-
-@Profile("spring-data-jpa")
-public interface SpringDataPetRepository extends PetRepository, Repository<Pet, Integer>, PetRepositoryOverride {
+public interface SpringDataPetRepository extends PetRepository, Repository<Pet, Integer> {
 
     @Override
     @Query("SELECT ptype FROM PetType ptype ORDER BY ptype.name")
-    List<PetType> findPetTypes() throws DataAccessException;
-
-    @Override
-    @Query(
-        value = "SELECT pet FROM Pet pet",
-        countQuery = "SELECT count(pet) FROM Pet pet")
-    Page<Pet> findAll(Pageable pageable);
+    List<PetType> findPetTypes();
 }
